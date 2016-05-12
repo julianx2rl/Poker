@@ -1,8 +1,5 @@
-// stdafx.cpp: archivo de código fuente que contiene sólo las inclusiones estándar
-// TexasHoldem.pch será el encabezado precompilado
-// stdafx.obj contiene la información de tipos precompilada
-
+// El único propósito de este archivo es incluir a stdafx.h
+// para la compilación del programa
 #include "stdafx.h"
 
-// TODO: mencionar los encabezados adicionales que se necesitan en STDAFX.H
-// pero no en este archivo
+// No agregar nada!

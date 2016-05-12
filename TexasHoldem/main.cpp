@@ -2,14 +2,19 @@
 //
 
 #include "stdafx.h"
+#include "Baraja.h"
+#include "Administrador.h"
 #include <iostream>
+
 using namespace std;
 
+int main() {
+	Administrador * juego = new Administrador();
 
+	juego->iniciarJuego(2);
+	juego->reparto();
+	juego->jugar();
 
-int main()
-{
-	cout << "Hola Mundo";
-    return 0;
+	delete juego;
+	return 0;
 }
-

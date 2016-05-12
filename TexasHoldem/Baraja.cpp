@@ -1,42 +1,75 @@
 #include "stdafx.h"
-#include "Baraja.h"
 #include "Carta.h"
-#include <iostream>
+#include "Baraja.h"
 
+using namespace std;
 
-Baraja::Baraja()
-{
-	Carta baraja[52];
-	
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 13; ++j) {
-			baraja[(i * 13)+ j].setPalo(i);
-			baraja[(i * 13) + j].setValor(j);
+bool compararCartas(const Carta* a, const Carta* b);
+
+Baraja::Baraja(){
+	srand(time(NULL));
+	list<Carta*> listaCartas;
+	char numeros[] = { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'D', 'J', 'Q', 'K' };
+	int valor[] = { 14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+	char palos[] = { 'D', 'C', 'T', 'E' };
+	for (int i = 0; i < 13; i++) {
+		for (int j = 0; j < 4; j++) {
+			listaCartas.push_front(new Carta(numeros[i], valor[i], palos[j]));
 		}
 	}
+}
 
-}//Fin de Constructor de Baraja
+void Baraja::barajarCartas() {
+	for (int i = 0; i < 1000; i++) {
+		list<Carta*>::iterator it1 = listaCartas.begin();
+		list<Carta*>::iterator it2 = listaCartas.begin();
 
+		int limite1 = rand() % listaCartas.size();
+		int limite2 = rand() % listaCartas.size();
+
+		for (int i = 0; i < limite1; i++) {
+			++it1;
+		}
+
+		for (int i = 0; i < limite2; i++) {
+			++it2;
+		}
+
+		Carta * tmp = *it1;
+		*it1 = *it2;
+		*it2 = tmp;
+	}
+}
+
+void Baraja::imprimirMazo() {
+	cout << "Cartas:" << endl;
+	for (list<Carta*>::iterator it = listaCartas.begin(); it != listaCartas.end(); ++it) {
+		cout << *it << endl;
+	}
+}
 
 Carta* Baraja::getCarta() {
-	Carta* respuesta = new Carta;
-	int numero = rand() % 52;
-	bool rep = false;
-	while (rep == false) {
-		respuesta = juego.get(numero);
-		rep = respuesta.estaDisponible();
-		if (rep == true) {
-			respuesta.sacar();
-		}
-		else {
-			respuesta = NULL;
+	list<Carta*>::iterator it1 = listaCartas.begin();
+	Carta * tmp = *it1;
+	listaCartas.pop_front();
+	return tmp;
+}
+
+void Baraja::reset() {
+	listaCartas.clear();
+	char numeros[] = { 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'D', 'J', 'Q', 'K' };
+	int valor[] = { 14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+	char palos[] = { 'D', 'C', 'T', 'E' };
+	for (int i = 0; i < 13; i++) {
+		for (int j = 0; j < 4; j++) {
+			listaCartas.push_front(new Carta(numeros[i], valor[i], palos[j]));
 		}
 	}
-	return respuesta;
-}//Fin de getCarta
+}
 
-Baraja::~Baraja()
-{
+bool compararCartas(const Carta* a, const Carta* b) {
+	return a->getValor() == b->getValor() && a->getPalo() < b->getPalo() || a->getValor() < b->getValor();
+}
 
-
-}// Fin de destructor de Baraja.
+Baraja::~Baraja() {
+}

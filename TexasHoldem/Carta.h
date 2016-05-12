@@ -1,63 +1,62 @@
+/**
+* @file Carta.h
+* @version 1.0
+* @date 07/05/2016
+* @author GrupoProgra: Julian Arguedas Torres B50587 - Milton Delgado Fernandez B12188 - Kenneth Walker Fernandez B37663
+* @title Clase Carta
+* @brief
+*/
+
 #pragma once
 
-/**
-La clase Carta simula el comportamiento de un objeto Carta en una baraja de poquer, tiene métodos básicos para 
-pedir información de la carta y un constructor por que crea la carta con sus valores desde el inicio
-**/
-class Carta
-{
+#include "stdafx.h"
+using namespace std;
 
-/*
-Lista de atributos de la clase:
-1. Un entero llamado valor, para definir el valor de la carta en escala de As a King
-2. Un entero llamado Palo, identificador del palo al cual pertenece la carta, en escala de 1 a 4.
-3. Un estado booleano llamado Disponible, indica si una carta ya fue usada o aun puede sacarse de la baraja
-*/
+class Carta {
+
+	friend ostream & operator<<(ostream &, Carta &);
+
 private:
-
+	char numero;
 	int valor;
-	int palo;
-	bool disponible;
+	char palo;
 
-
-/*
-Definiciones de métodos y atributos públicos de la clase
-*/
 public:
-	
-	/*
-	Constructor por defecto de la clase carta.
+	/**
+	* @brief Constructor por parametros de Carta
+	* @param numero Numero de la carta
+	* @param valor Valor de la carta
+	* @param palo Palo de la carta
 	*/
-	Carta();
+	Carta(char numero, int valor, char palo);
 
-	/*
-	Constructor personalizado para la clase Carta, recibe y asigna los valores de parámetro a las variables propias
-	de la carta, Valor, Palo y Disponible
+	/**
+	* @brief Destructor de Carta
 	*/
-	Carta(int, int);
-
 	~Carta();
 
-
-	/*
-	Getter para obtener el valor correspondiente a la carta, devuelve un valor entre 1 y 13, dependiendo del valor asignado
-	a la carta
+	/**
+	* @brief Valor de la carta
+	* @return Entero con el valor de la Carta
 	*/
-	int getValor();
+	int getValor() const;
 
-	/*
-	Getter para obtener el palo correspondiente a la carta, devuelve un valor entre 1 y 4, dependiendo del palo asignado
+	/**
+	* @brief Palo de la carta
+	* @return Caracter con el palo de la Carta
 	*/
-	int getPalo();
+	char getPalo() const;
 
-	/*
-	Este método devuelve un tipo de dato booleano para confirmar si la carta puede seleccionarse de la baraja, o si ya ha sido 
-	utilizada durante alguna ronda de apuesta.
+	/**
+	* @brief Numero de la carta
+	* @return Entero con el numero de la Carta
 	*/
-	bool estaDisponible();
+	int getNumero() const;
 
-	void setPalo(int);
+	/**
+	* @brief Sobrecarga del operador '<' para evaluar Carta
+	*/
+	bool operator<(Carta &);
+};
 
-	void setValor();
-
-};//Fin de la clase Carta
+ostream & operator<<(ostream &, Carta &);

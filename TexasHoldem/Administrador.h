@@ -1,66 +1,82 @@
 
-/*
-La clase Administador va a funcionar como nuestro "Dealer", durante la simulacion del juego de Poquer.
-Se programará usando como referencia la variante "Texas Hold'em", que es la forma más popular del juego.
-Esta clase se comunica con la clase Carta, Baraja y Jugador principalmente, ejecuta las funciones de reparto de cartas
-y manejo de apuestas, asi como tambien de llevar el conteo de puntos y ver cual jugador es el ganador.
-Estudiantes: Julian , Kenneth, Milton Delgado.
+/**
+* @file Administrador.h
+* @version 1.0
+* @date 07/05/2016
+* @author GrupoProgra: Julian Arguedas Torres B50587 - Milton Delgado Fernandez B12188 - Kenneth Walker Fernandez B37663
+* @title Clase Administrador
+* @brief Controla la simulacion del poker
 */
 
 #pragma once
 #include "Jugador.h"
 #include "Carta.h"
+#include "Baraja.h"
+#include "stdafx.h"
 
 
 class Administrador
 {
-
-/*
-Metodos y variables publicas de la clase Administrador
-*/
-
 public:
 
-	/*
-	Constructor de la clase Administrador
+	int lote;
+	int apuestaMinima;
+	list<Jugador*> juego;
+	list<Carta*> mesa;
+	Baraja mano;
+
+	/**
+	* @brief Constructor por defecto del Administrador
 	*/
 	Administrador();
 
-	//A todos les puse void xq el diagrama no tenía el tipo del metodo.
-
-	/*
-	Este metodo se encarga, como su nombre lo dice, de inicializar el juego, crear y una partida y pedir el numero de
-	jugadores.
+	/**
+	* @brief Inicia la simulacion del poker
+	* @param jugadores Numero de jugadores
 	*/
-	void iniciarJuego();
+	void iniciarJuego(int jugadores);
 
-	/*
-	Esta funcion hace un reparto inicial de dos cartas por jugador para iniciar la ronda de apuestas
+	/**
+	* @brief Da dos cartas a cada uno de los jugadores.
 	*/
-	void repartoInicial();
+	void reparto();
 
-	/*
-	###########################################################
+	/**
+	* @brief Inicia el juego.
 	*/
-	void preguntar(); //Preguntar exactamente que? el nombre no especifica la funcion
+	void jugar();
 
-	/*
-	Metodo Auxiliar para determinar quien es el ganador de cada ronda
+	/**
+	* @brief Coloca una carta en la mesa.
 	*/
-	void determinarGanador();
-	
-	/*
-	Destructor por defecto de la clase Administrador
+	void poner();
+
+	/**
+	* @brief Le presenta las opciones disponibles al jugador.
+	*/
+	void preguntar();
+
+	/**
+	* @brief Imprime las cartas que han sido colocadas en la mesa.
+	*/
+	void imprimir();
+
+	/**
+	* @brief Calcula el valor de la jugada del conjunto de cartas.
+	* @param listaCartas.
+	* @return Valor de la jugada en las cartas del maso obtenido.
+	*/
+	int valorJugada(list<Carta*> listaCartas);
+
+	/**
+	* @brief Calcula cual jugador tiene la mejor jugada.
+	* @return Retorna al ganador de la partida
+	*/
+	Jugador* calcular();
+
+	/**
+	* @brief Destructor de Administrador
 	*/
 	~Administrador();
 
-
-	int numJugadores; //Almacena un valor que determina la cantidad de jugadores en la partida.
-	Jugador* Jugadores; //Almacena una referencia a los jugadores participantes de la partida
-	int apuestaMinima; // Define el monto minimo de apuesta para los jugadores
-	int lote; //Lleva la cuenta del total de premio por ronda
-
-	char* Nombres[10]; //Almacena una lista de nombres que serán aleatoriamente seleccionados y asignados a cada jugador.
-	Carta* mesa; //Puntero a Cartas obtenidas a partir de la clase Baraja.
-};//Fin de la clase Administrador.
-
+};

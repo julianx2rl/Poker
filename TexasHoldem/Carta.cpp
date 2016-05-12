@@ -1,34 +1,31 @@
 #include "stdafx.h"
 #include "Carta.h"
 
+using namespace std;
 
-Carta::Carta()
-{
-	int valor = 0;
-	int palo = 0;
-	bool dis = true;
-}//Fin de Constructor default
-
-Carta::Carta(int val, int pal)
-{
-	int valor = val;
-	int palo = pal;
-	bool dis = true;
-}//Fin de ConstructorCarta
-
-Carta::~Carta()
-{
+Carta::Carta(char numero, int valor, char palo) : numero(numero), valor(valor), palo(palo) {
 }
 
-int Carta::getPalo() {
 
+Carta::~Carta() {
+}
+
+int Carta::getValor() const {
+	return valor;
+}
+
+char Carta::getPalo() const {
 	return palo;
-}//Fin de metodo getPalo
-
-void Carta::setPalo(int i)
-{
-	palo = i;
 }
 
+int Carta::getNumero() const {
+	return numero;
+}
 
+bool Carta::operator<(Carta & otra) {
+	return this->valor < otra.valor;
+}
 
+ostream & operator<<(ostream & out, Carta & c) {
+	return out << "[numero=" << c.numero << ", valor=" << c.valor << ", palo=" << c.palo << "]";
+}

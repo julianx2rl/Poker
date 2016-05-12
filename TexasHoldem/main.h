@@ -1,18 +1,23 @@
 #pragma once
+#include "Administrador.h"
 
 /**
-* @file Interfaz.h
+* @file Administrador.h
 * @version 1.0
 * @date 07/05/2016
 * @author GrupoProgra: Julian Arguedas Torres B50587 - Milton Delgado Fernandez B12188 - Kenneth Walker Fernandez B37663
-* @title Clase Interfaz
+* @title Clase Administrador
 * @brief
 */
 
-class Interfaz
+class main
 {
 public:
-	Interfaz();
-	~Interfaz();
+
+	Administrador john;
+
+	main();
+
+	~main();
 };
 

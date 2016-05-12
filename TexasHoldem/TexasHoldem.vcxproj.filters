@@ -32,6 +32,9 @@
     <ClInclude Include="Administrador.h">
       <Filter>h</Filter>
     </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
