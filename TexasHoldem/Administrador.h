@@ -57,6 +57,12 @@ public:
 	void preguntar();
 
 	/**
+	* @brief La primera opcion del jugador.
+	* @param it El jugador activo
+	*/
+	void apostar(Jugador* it);
+
+	/**
 	* @brief Imprime las cartas que han sido colocadas en la mesa.
 	*/
 	void imprimir();

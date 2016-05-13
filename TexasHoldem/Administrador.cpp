@@ -101,48 +101,34 @@ void Administrador::preguntar() {
 	while (settled == false) {
 		for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
 			bool done = (*it)->check();
+
 			if (done == false) {
-				cout << "What will you do? player " << (*it)->getName() << " 0 = bet, 1 = check, 2 = fold, - Your money is " << (*it)->getMoney() << " - The mimimum deal is: " << apuestaMinima << " - and your deck is:" << endl;
-				(*it)->imprimir();
-				this->imprimir();
-				cout << endl;
-				cin >> opcion;
-				switch (opcion) {
-				case 0:
-				{
-					int bet = 0;
-					cout << "How much will you bet? " << (*it)->getName() << " - The minimum is " << apuestaMinima << endl;
-					cin >> bet;
-					int tol = (*it)->bet(bet);
-					if (tol >= apuestaMinima) {
-						apuestaMinima = bet;
-						lote = lote + bet;
+				if ((*it)->getMoney() > (apuestaMinima - 1)) {
+					cout << "What will you do? player " << (*it)->getName() << " 0 = bet, 1 = check, 2 = fold, - Your money is " << (*it)->getMoney() << " - The mimimum deal is: " << apuestaMinima << " - and your deck is:" << endl;
+					(*it)->imprimir();
+					this->imprimir();
+					cout << endl;
+					cin >> opcion;
+					switch (opcion) {
+					case 0:
+					{
+						(this)->apostar(*it);
 						(*it)->finish();
 					}
-					else {
-						if ((*it)->getMoney() > (apuestaMinima - 1)) {
-							cout << "You have to deal more than that!" << endl;
-							(*it)->recieveMoney(bet);
-							(*it)->bet(apuestaMinima);
-							lote = lote + apuestaMinima;
-							(*it)->finish();
-						}
-						else {
-							cout << "You're out" << (*it)->getName() << endl;
-							juego.erase(it);
-						}
+					case 1:
+					{
+					}
+					case 2:
+					{
+						cout << "Good Bye..." << (*it)->getName() << endl;
+						juego.erase(it);
 					}
 					break;
+					}
 				}
-				case 1:
-				{
-				}
-				case 2:
-				{
-					cout << "Good Bye..." << (*it)->getName()<< endl;
+				else {
+					cout << "You're out" << (*it)->getName() << endl;
 					juego.erase(it);
-				}
-				break;
 				}
 			}
 		}
@@ -151,6 +137,25 @@ void Administrador::preguntar() {
 			if (settled == false) {
 				break;
 			}
+		}
+	}
+}
+
+void Administrador::apostar(Jugador* it) {
+	int bet = 0;
+	cout << "How much will you bet? " << (it)->getName() << " - The minimum is " << apuestaMinima << endl;
+	cin >> bet;
+	int tol = (it)->bet(bet);
+	if (tol >= apuestaMinima) {
+		apuestaMinima = bet;
+		lote = lote + bet;
+	}
+	else {
+		if ((it)->getMoney() > (apuestaMinima - 1)) {
+			cout << "You have to deal more than that! - The deal will be settled automatically!" << endl;
+			(it)->recieveMoney(bet);
+			(it)->bet(apuestaMinima);
+			lote = lote + apuestaMinima;
 		}
 	}
 }
