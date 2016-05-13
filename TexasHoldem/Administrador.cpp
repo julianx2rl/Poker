@@ -13,7 +13,6 @@ void Administrador::iniciarJuego() {
 	int efectivo = 0;
 	cin >> efectivo;
 	cout << "Elige la cantidad de dinero de cada jugador - Mínimo de 100." << endl;
-	int efectivo = 0;
 	cin >> efectivo;
 	if (efectivo < 100) {
 		efectivo = 100;
@@ -35,7 +34,7 @@ void Administrador::iniciarJuego() {
 	cout << "Elige los nombres de jugadores." << endl;
 	char* nombre = "";
 	for (int i = 0; i < numero; ++i) {
-		cout << "Numero " << i << endl;
+		cout << "Numero " << (i+1) << endl;
 		cin >> nombre;
 		this->juego.push_front(new Jugador(nombre, efectivo));
 	}
@@ -77,7 +76,9 @@ void Administrador::jugar() {
 	}
 
 	Jugador* winner = calcular();
-	cout << "The winner is: " << (winner)->getName() << " con " << this->imprimir << (winner)->imprimir << endl;
+	cout << "The winner is: " << (winner)->getName() << " con:" << endl;
+	this->imprimir();
+	(winner)->imprimir();
 	juego.clear();
 	mesa.clear();
 	delete mano;
