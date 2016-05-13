@@ -12,7 +12,7 @@ void Administrador::iniciarJuego() {
 	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor!" << endl;
 	int efectivo = 0;
 	cin >> efectivo;
-	cout << "Elige la cantidad de dinero de cada jugador - Mínimo de 100." << endl;
+	cout << ("Elige la cantidad de dinero de cada jugador - Minimo de 100.") << endl;
 	cin >> efectivo;
 	if (efectivo < 100) {
 		efectivo = 100;
@@ -31,12 +31,12 @@ void Administrador::iniciarJuego() {
 			cout << "Solo un maximo de 10 jugadores pueden unirse." << endl;
 		}
 	}
-	cout << "Elige los nombres de jugadores." << endl;
-	char* nombre = "";
+	cout << "Elige los nombres de jugadores. - No más de 30 caracteres" << endl;
+	char* nombre = new char[30];
 	for (int i = 0; i < numero; ++i) {
 		cout << "Numero " << (i+1) << endl;
-		cin >> nombre;
-		this->juego.push_front(new Jugador(nombre, efectivo));
+		cin>>nombre;
+		this->juego.push_back(new Jugador(nombre, efectivo));
 	}
 	int value = numero;
 	this->mano = new Baraja();
@@ -106,6 +106,7 @@ void Administrador::preguntar() {
 				if ((*it)->getMoney() > (apuestaMinima - 1)) {
 					cout << "What will you do? player " << (*it)->getName() << " 0 = bet, 1 = check, 2 = fold, - Your money is " << (*it)->getMoney() << " - The mimimum deal is: " << apuestaMinima << " - and your deck is:" << endl;
 					(*it)->imprimir();
+					cout << " - Mesa: ";
 					this->imprimir();
 					cout << endl;
 					cin >> opcion;
