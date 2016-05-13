@@ -8,74 +8,100 @@ Administrador::Administrador()
 {
 }
 
-void Administrador::iniciarJuego(int numero) {
+void Administrador::iniciarJuego() {
+	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor!" << endl;
+	int efectivo = 0;
+	cin >> efectivo;
+	cout << "Elige la cantidad de dinero de cada jugador - Mínimo de 100." << endl;
+	int efectivo = 0;
+	cin >> efectivo;
+	if (efectivo < 100) {
+		efectivo = 100;
+		cout << "al menos un valor de 100 es requerido." << endl;
+	}
+	int numero = 0;
+	cout << "Elige la cantidad de jugadores." << endl;
+	cin >> numero;
 	if (numero < 2) {
 		numero = 2;
-		cout << "al menos 2 jugadores son requeridos" << endl;
+		cout << "al menos 2 jugadores son requeridos." << endl;
 	}
-	if (numero > 10) {
-		numero = 10;
-		cout << "Solo un maximo de 10 jugadores pueden unirse" << endl;
+	else {
+		if (numero > 10) {
+			numero = 10;
+			cout << "Solo un maximo de 10 jugadores pueden unirse." << endl;
+		}
 	}
-	list<Jugador*> juego;
-	list <Carta*> mesa;
+	cout << "Elige los nombres de jugadores." << endl;
+	char* nombre = "";
+	for (int i = 0; i < numero; ++i) {
+		cout << "Numero " << i << endl;
+		cin >> nombre;
+		this->juego.push_front(new Jugador(nombre, efectivo));
+	}
 	int value = numero;
-	Baraja mano;
-	mano.barajarCartas();
-	for (int j = 0; j < value; ++j) {
-		juego.push_front(new Jugador());
-	}
+	this->mano = new Baraja();
+	mano->barajarCartas();
 }
 
 void Administrador::reparto() {
-
-for (int j = 0; j < 10; ++j) { //Pasa por los diez jugadores.
+	for (list<Jugador*>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) { //Pasa por los diez jugadores.
 		for (int i = 0; i < 2; ++i) { //Le da dos cartas a cada uno
-			Carta* tmp = mano.getCarta();
-			list<Jugador*>::iterator it = juego.begin();
-			advance(it, j);
-			(*it) -> recieve(tmp);
+			Carta * tmp = this->mano->getCarta();
+			(*it)->recieve(tmp);
 		}
 	}
 }
 
 void Administrador::imprimir() {
-	for (list<Carta *>::iterator it = mesa.begin(); it != mesa.end(); ++it) {
+	for (list<Carta *>::iterator it = this->mesa.begin(); it != this->mesa.end(); ++it) {
 		cout << **it;
 	}
 }
 
 void Administrador::jugar() {
+
+	//
 	for (int j = 0; j < 3; ++j) {
 		poner();
 	}
-	preguntar();
-	poner();
-	preguntar();
-	poner();
-	preguntar();
+
+	for (int j = 0; j < 3; ++j) {
+		preguntar();
+		if (j <= 1) {
+		poner();
+	}
+		if (juego.size() <= 1) {
+			break;
+		}
+	}
 
 	Jugador* winner = calcular();
-	cout << "The winner is: " << (winner)->getName() << "° Player";
+	cout << "The winner is: " << (winner)->getName() << " con " << this->imprimir << (winner)->imprimir << endl;
+	juego.clear();
+	mesa.clear();
+	delete mano;
 }
 
 void Administrador::poner() {
-	Carta* tmp = mano.getCarta();
+	Carta* tmp = this->mano->getCarta();
 	mesa.push_front(tmp);
+	for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
+		(*it)->reset();
+	}
 }
 
 void Administrador::preguntar() {
 	int opcion = 0;
+	cout << "La mesa es:" << endl;
 	this->imprimir();
-	bool settled = true;
+	bool settled = false;
 	int j = juego.size();
-	while (settled = false) {
-		for (int i = 0; i < j; ++i) {
-			list<Jugador*>::iterator it = juego.begin();
-			advance(it, i);
+	while (settled == false) {
+		for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
 			bool done = (*it)->check();
-			if (done = false) {
-				cout << "What will you do? player " << (*it)->getName() << " 0 = bet, 1 = check, 2 = fold, - Your money is" << (*it)->getMoney() << "and your deck is:" << endl;
+			if (done == false) {
+				cout << "What will you do? player " << (*it)->getName() << " 0 = bet, 1 = check, 2 = fold, - Your money is " << (*it)->getMoney() << " - The mimimum deal is: " << apuestaMinima << " - and your deck is:" << endl;
 				(*it)->imprimir();
 				this->imprimir();
 				cout << endl;
@@ -84,23 +110,24 @@ void Administrador::preguntar() {
 				case 0:
 				{
 					int bet = 0;
-					cout << "How much will you bet?" << j << "The minimum is" << apuestaMinima;
+					cout << "How much will you bet? " << (*it)->getName() << " - The minimum is " << apuestaMinima << endl;
 					cin >> bet;
 					int tol = (*it)->bet(bet);
 					if (tol >= apuestaMinima) {
+						apuestaMinima = bet;
 						lote = lote + bet;
 						(*it)->finish();
 					}
 					else {
 						if ((*it)->getMoney() > (apuestaMinima - 1)) {
-							cout << "You have to deal more than that!";
+							cout << "You have to deal more than that!" << endl;
 							(*it)->recieveMoney(bet);
 							(*it)->bet(apuestaMinima);
-							lote = lote + bet;
+							lote = lote + apuestaMinima;
 							(*it)->finish();
 						}
 						else {
-							cout << "You're out" << j;
+							cout << "You're out" << (*it)->getName() << endl;
 							juego.erase(it);
 						}
 					}
@@ -111,18 +138,16 @@ void Administrador::preguntar() {
 				}
 				case 2:
 				{
-					cout << "Good Bye..." << j;
+					cout << "Good Bye..." << (*it)->getName()<< endl;
 					juego.erase(it);
 				}
 				break;
 				}
 			}
 		}
-		for (int p = 0; p < j; ++p) {
-			list<Jugador*>::iterator it = juego.begin();
-			advance(it, p);
+		for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
 			settled = (*it)->check();
-			if (settled = false) {
+			if (settled == false) {
 				break;
 			}
 		}
@@ -132,21 +157,17 @@ void Administrador::preguntar() {
 Jugador* Administrador::calcular()
 {
 	int winner = 0;
-	list<Jugador*>::iterator tamizake = juego.begin();
+	list<Jugador*>::iterator tamizake = this->juego.begin();
 	Jugador* tam = (*tamizake);
 	list<Carta*> manotmp;
 	Carta* tmp;
 	mesa.sort();
-	for (int i = 0; i < 3; ++i) {
-		list<Carta*>::iterator it = mesa.begin();
-		advance(*it, i);
+	for (list<Carta *>::iterator it = this->mesa.begin(); it != this->mesa.end(); ++it) {
 		tmp = (*it);
 		manotmp.push_front(tmp);
 	}
-	for (int j = 0; j < 10; ++j) {
-		list<Jugador*>::iterator ito = juego.begin();
-		advance(ito, j);
-		list<Carta*> manitatmp = (*ito)->returnHand();
+	for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
+		list<Carta*> manitatmp = (*it)->returnHand();
 
 		for (list<Carta*>::iterator ite = manitatmp.begin(); ite != manitatmp.end(); ++ite) {
 			tmp = (*ite);
@@ -155,14 +176,15 @@ Jugador* Administrador::calcular()
 		manotmp.sort();
 		int fag = valorJugada(manotmp);
 		if (fag > winner) {
-			tam = (*ito);
+			tam = (*it);
 			winner = fag;
+			// Mata las cartas del jugador, no usa clear para no meter las cartas de mesa otra vez.
 			list<Carta*>::iterator killer = manotmp.begin();
-			for (int u = 0; u < 3; ++u) {
-				manotmp.erase(killer);
+			for (int u = 0; u < 2; ++u) {
+				manotmp.pop_front();
 			}
 		}
-}
+	}
 	return tam;
 }
 
@@ -186,10 +208,10 @@ int Administrador::valorJugada(list<Carta*> mano)
 		it1 = mano.begin();
 		it2 = mano.begin();
 		advance(it1, k);
-		advance(it2, k+1);
+		advance(it2, k + 1);
 		if (k == 4)
 			flush = 1;
-			break;
+		break;
 	}
 
 	/* checks for straight*/
@@ -214,10 +236,10 @@ int Administrador::valorJugada(list<Carta*> mano)
 		k = i;
 		while (k<i + 3 && ((*it1)->getValor() == (*it2)->getValor()) - 1)
 			k++;
-			it1 = mano.begin();
-			it2 = mano.begin();
-			advance(it1, k);
-			advance(it2, k + 1);
+		it1 = mano.begin();
+		it2 = mano.begin();
+		advance(it1, k);
+		advance(it2, k + 1);
 		if (k == i + 3) {
 			four = 1;
 			it1 = mano.begin();

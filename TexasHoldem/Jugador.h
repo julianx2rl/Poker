@@ -32,8 +32,10 @@ public:
 	/**
 	* @brief Constructor por parametros de Jugador
 	* @param nombre Nombre que se le asignara al jugador
+	* @param dinero Cantidad de dinero manejada por el jugador
 	*/
 	Jugador(char* nombre);
+	Jugador(char* nombre, int dinero);
 
 	/**
 	* @brief Descuenta el monto apostado al jugador

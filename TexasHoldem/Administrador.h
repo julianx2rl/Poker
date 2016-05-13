@@ -23,7 +23,7 @@ public:
 	int apuestaMinima;
 	list<Jugador*> juego;
 	list<Carta*> mesa;
-	Baraja mano;
+	Baraja* mano;
 
 	/**
 	* @brief Constructor por defecto del Administrador
@@ -34,7 +34,7 @@ public:
 	* @brief Inicia la simulacion del poker
 	* @param jugadores Numero de jugadores
 	*/
-	void iniciarJuego(int jugadores);
+	void iniciarJuego();
 
 	/**
 	* @brief Da dos cartas a cada uno de los jugadores.

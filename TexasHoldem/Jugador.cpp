@@ -5,29 +5,35 @@
 Jugador::Jugador()
 {
 	disponible = 300;
-	list<Carta*> manita;
 	done = false;
-	char* nombre = "unknown";
+	this->nombre = "unknown";
 }
 
 Jugador::Jugador(char* name)
 {
 	disponible = 300;
-	list<Carta*> manita;
+	done = false;
+	nombre = name;
+}
+
+Jugador::Jugador(char* name, int money)
+{
+	disponible = money;
 	done = false;
 	nombre = name;
 }
 
 void Jugador::recieve(Carta* man) {
-	manita.push_front(man);
+	this->manita.push_front(man);
 }
 
 int Jugador::bet(int amount) {
-	if (amount <= 0) {
-		if (amount < disponible) {
-			amount = disponible;
+	if (amount >= 0) {
+		if (amount > this->disponible) {
+			amount = this->disponible;
 		}
-		disponible = disponible - amount;
+		int tmp = this->disponible;
+		this->disponible = tmp - amount;
 		return amount;
 	}
 	else {
@@ -35,7 +41,7 @@ int Jugador::bet(int amount) {
 	}
 }
 
-void Jugador::finish(){
+void Jugador::finish() {
 	done = true;
 }
 
@@ -50,14 +56,14 @@ bool Jugador::check()
 
 Carta* Jugador::getCarta()
 {
-	list<Carta*>::iterator it1 = manita.begin();
+	list<Carta*>::iterator it1 = this->manita.begin();
 	Carta * tmp = *it1;
-	manita.pop_front();
+	this->manita.pop_front();
 	return tmp;
 }
 
 void Jugador::imprimir() {
-	for (list<Carta *>::iterator it = manita.begin(); it != manita.end(); ++it) {
+	for (list<Carta *>::iterator it = this->manita.begin(); it != this->manita.end(); ++it) {
 		cout << **it;
 	}
 }

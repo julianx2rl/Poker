@@ -27,5 +27,5 @@ bool Carta::operator<(Carta & otra) {
 }
 
 ostream & operator<<(ostream & out, Carta & c) {
-	return out << "[numero=" << c.numero << ", valor=" << c.valor << ", palo=" << c.palo << "]";
+	return out << "[valor=" << c.valor << ", palo=" << c.palo << "]";
 }
