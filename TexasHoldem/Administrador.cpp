@@ -29,20 +29,19 @@ void Administrador::iniciarJuego() {
 		if (cin.fail()) {
 			cout << "Por favor usa un numero entero." << endl;
 		}
+		else if (efectivo < 100) {
+			cout << "al menos un valor de 100 es requerido." << endl;
+		}
 		else {
 			hecho = true;
 		}
 	}
 	hecho = false;
-	if (efectivo < 100) {
-		efectivo = 100;
-		cout << "al menos un valor de 100 es requerido." << endl;
-	}
 	int numero = 0;
 	bool terminado = false;
 	while (terminado == false) {
 		cout << "Elige la cantidad de jugadores." << endl;
-		while (hecho = false) {
+		while (hecho == false) {
 			cin >> numero;
 			if (cin.fail()) {
 				cout << "Por favor usa un numero entero." << endl;
