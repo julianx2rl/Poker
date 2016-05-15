@@ -108,24 +108,22 @@ void Administrador::jugar() {
 	cout << "El ganador es: " << (winner)->getName() << " con:" << endl;
 	this->imprimir();
 	(winner)->imprimir();
-	juego.clear();
-	mesa.clear();
+	this->juego.clear();
+	this->mesa.clear();
 	delete mano;
 }
 
 void Administrador::poner() {
 	Carta* tmp = this->mano->getCarta();
-	mesa.push_front(tmp);
+	this->mesa.push_front(tmp);
 	for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
 		(*it)->reset();
 	}
+	this->mesa.sort();
 }
 
 void Administrador::preguntar() {
 	int opcion = 0;
-	cout << "La mesa es:" << endl;
-	this->imprimir();
-	cout << endl;
 	bool settled = false;
 	int j = juego.size();
 	while (settled == false) {

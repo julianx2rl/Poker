@@ -18,6 +18,7 @@ Jugador::Jugador(char name, int money)
 
 void Jugador::recieve(Carta* man) {
 	this->manita.push_front(man);
+	this->manita.sort();
 }
 
 int Jugador::bet(int amount) {
