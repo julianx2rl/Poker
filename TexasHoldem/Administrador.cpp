@@ -148,8 +148,9 @@ void Administrador::preguntar() {
 					}
 					case 1:
 					{
-						cout << "Adios..." << (*it)->getName() << endl;
+						cout << "Adios... - " << (*it)->getName() << endl;
 						juego.erase(it);
+						it = juego.begin();
 						break;
 					}
 					}
@@ -157,6 +158,7 @@ void Administrador::preguntar() {
 				else {
 					cout << "Se te acabo el dinero, estas fuera!" << (*it)->getName() << endl;
 					juego.erase(it);
+					it = juego.begin();
 				}
 			}
 		}
