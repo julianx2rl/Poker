@@ -2,21 +2,14 @@
 #include "Jugador.h"
 
 
-Jugador::Jugador()
-{
-	disponible = 300;
-	done = false;
-	this->nombre = "unknown";
-}
-
-Jugador::Jugador(char* name)
+Jugador::Jugador(char name)
 {
 	disponible = 300;
 	done = false;
 	nombre = name;
 }
 
-Jugador::Jugador(char* name, int money)
+Jugador::Jugador(char name, int money)
 {
 	disponible = money;
 	done = false;
@@ -73,7 +66,7 @@ int Jugador::getMoney()
 	return disponible;
 }
 
-char* Jugador::getName()
+char Jugador::getName()
 {
 	return nombre;
 }
@@ -88,6 +81,10 @@ void Jugador::sort() {
 
 list<Carta*> Jugador::returnHand() {
 	return manita;
+}
+
+ostream & operator<<(ostream & out, Jugador & c) {
+	return out << "[Nombre: " << c.nombre << "]";
 }
 
 Jugador::~Jugador()

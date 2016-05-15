@@ -9,6 +9,7 @@ Administrador::Administrador()
 }
 
 void Administrador::iniciarJuego() {
+	char nombres[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'};
 	bool hecho = false;
 	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor numerico!" << endl;
 	int efectivo = 0;
@@ -63,12 +64,9 @@ void Administrador::iniciarJuego() {
 			terminado = true;
 		}
 	}
-	cout << "Elige los nombres de jugadores." << endl;
-	char nombre[1024];
+	cout << "No puedes elegir el nombre de los jugadores." << endl;
 	for (int i = 0; i < numero; ++i) {
-		cout << "Numero " << (i+1) << endl;
-		cin>>nombre;
-		this->juego.push_back(new Jugador(nombre, efectivo));
+		this->juego.push_back(new Jugador(nombres[i], efectivo));
 	}
 	int value = numero;
 	this->mano = new Baraja();

@@ -7,12 +7,13 @@
 * @brief
 */
 
-
 #pragma once
 #include "carta.h"
-
+using namespace std;
 
 class Jugador {
+
+	friend ostream & operator<<(ostream &, Jugador &);
 
 private:
 
@@ -21,21 +22,16 @@ private:
 public:
 
 	int disponible;
-	char* nombre;
+	char nombre;
 	bool done;
-
-	/**
-	* @brief Constructor por defecto de Jugador
-	*/
-	Jugador();
 
 	/**
 	* @brief Constructor por parametros de Jugador
 	* @param nombre Nombre que se le asignara al jugador
 	* @param dinero Cantidad de dinero manejada por el jugador
 	*/
-	Jugador(char* nombre);
-	Jugador(char* nombre, int dinero);
+	Jugador(char nombre);
+	Jugador(char nombre, int dinero);
 
 	/**
 	* @brief Descuenta el monto apostado al jugador
@@ -72,7 +68,7 @@ public:
 	* @brief Devuelve el nombre del jugador
 	* @return Nombre del Jugador
 	*/
-	char* getName();
+	char getName();
 
 	/**
 	* @brief Cambia la disponibilidad del jugador
