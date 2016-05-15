@@ -13,7 +13,7 @@ void Administrador::iniciarJuego() {
 	bool hecho = false;
 	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor numerico!" << endl;
 	int efectivo = 0;
-	while (hecho = false) {
+	while (hecho == false) {
 		cin >> efectivo;
 		if (cin.fail()) {
 			cout << "Por favor usa un numero entero." << endl;
@@ -24,7 +24,7 @@ void Administrador::iniciarJuego() {
 	}
 	hecho = false;
 	cout << ("Elige la cantidad de dinero de cada jugador - Minimo de 100.") << endl;
-	while (hecho = false) {
+	while (hecho == false) {
 		cin >> efectivo;
 		if (cin.fail()) {
 			cout << "Por favor usa un numero entero." << endl;
@@ -40,7 +40,7 @@ void Administrador::iniciarJuego() {
 	}
 	int numero = 0;
 	bool terminado = false;
-	while (terminado = false) {
+	while (terminado == false) {
 		cout << "Elige la cantidad de jugadores." << endl;
 		while (hecho = false) {
 			cin >> numero;
@@ -126,12 +126,12 @@ void Administrador::preguntar() {
 	int opcion = 0;
 	cout << "La mesa es:" << endl;
 	this->imprimir();
+	cout << endl;
 	bool settled = false;
 	int j = juego.size();
 	while (settled == false) {
 		for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
 			bool done = (*it)->check();
-
 			if (done == false) {
 				if ((*it)->getMoney() > (apuestaMinima - 1)) {
 					cout << "Que vas a hacer? " << (*it)->getName() << " 0 = Apostar, 1 = Salir, inserta cualquier otro numero para suspender, - Dinero: " << (*it)->getMoney() << " - El mimimo es: " << apuestaMinima << " - Tus cartas:" << endl;
