@@ -9,30 +9,62 @@ Administrador::Administrador()
 }
 
 void Administrador::iniciarJuego() {
-	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor!" << endl;
+	bool hecho = false;
+	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor numerico!" << endl;
 	int efectivo = 0;
-	cin >> efectivo;
+	while (hecho = false) {
+		cin >> efectivo;
+		if (cin.fail()) {
+			cout << "Por favor usa un numero entero." << endl;
+		}
+		else {
+			hecho = true;
+		}
+	}
+	hecho = false;
 	cout << ("Elige la cantidad de dinero de cada jugador - Minimo de 100.") << endl;
-	cin >> efectivo;
+	while (hecho = false) {
+		cin >> efectivo;
+		if (cin.fail()) {
+			cout << "Por favor usa un numero entero." << endl;
+		}
+		else {
+			hecho = true;
+		}
+	}
+	hecho = false;
 	if (efectivo < 100) {
 		efectivo = 100;
 		cout << "al menos un valor de 100 es requerido." << endl;
 	}
 	int numero = 0;
-	cout << "Elige la cantidad de jugadores." << endl;
-	cin >> numero;
-	if (numero < 2) {
-		numero = 2;
-		cout << "al menos 2 jugadores son requeridos." << endl;
-	}
-	else {
-		if (numero > 10) {
-			numero = 10;
-			cout << "Solo un maximo de 10 jugadores pueden unirse." << endl;
+	bool terminado = false;
+	while (terminado = false) {
+		cout << "Elige la cantidad de jugadores." << endl;
+		while (hecho = false) {
+			cin >> numero;
+			if (cin.fail()) {
+				cout << "Por favor usa un numero entero." << endl;
+			}
+			else {
+				hecho = true;
+			}
+		}
+		hecho = false;
+		if (numero < 2) {
+			cout << "al menos 2 jugadores son requeridos." << endl;
+		}
+		else {
+			if (numero > 10) {
+				cout << "Solo un maximo de 10 jugadores pueden unirse." << endl;
+			}
+		}
+		if (numero >= 2 && numero <= 10) {
+			terminado = true;
 		}
 	}
-	cout << "Elige los nombres de jugadores. - No más de 30 caracteres" << endl;
-	char* nombre = new char[30];
+	cout << "Elige los nombres de jugadores." << endl;
+	char nombre[1024];
 	for (int i = 0; i < numero; ++i) {
 		cout << "Numero " << (i+1) << endl;
 		cin>>nombre;
@@ -104,7 +136,7 @@ void Administrador::preguntar() {
 
 			if (done == false) {
 				if ((*it)->getMoney() > (apuestaMinima - 1)) {
-					cout << "What will you do? player " << (*it)->getName() << " 0 = bet, 1 = check, 2 = fold, - Your money is " << (*it)->getMoney() << " - The mimimum deal is: " << apuestaMinima << " - and your deck is:" << endl;
+					cout << "Que vas a hacer? " << (*it)->getName() << " 0 = Apostar, 1 = Salir, inserta cualquier otro numero para suspender, - Dinero: " << (*it)->getMoney() << " - El mimimo es: " << apuestaMinima << " - Tus cartas:" << endl;
 					(*it)->imprimir();
 					cout << " - Mesa: ";
 					this->imprimir();
@@ -118,17 +150,14 @@ void Administrador::preguntar() {
 					}
 					case 1:
 					{
-					}
-					case 2:
-					{
-						cout << "Good Bye..." << (*it)->getName() << endl;
+						cout << "Adios..." << (*it)->getName() << endl;
 						juego.erase(it);
 					}
 					break;
 					}
 				}
 				else {
-					cout << "You're out" << (*it)->getName() << endl;
+					cout << "Estas fuera!" << (*it)->getName() << endl;
 					juego.erase(it);
 				}
 			}
@@ -144,19 +173,18 @@ void Administrador::preguntar() {
 
 void Administrador::apostar(Jugador* it) {
 	int bet = 0;
-	cout << "How much will you bet? " << (it)->getName() << " - The minimum is " << apuestaMinima << endl;
+	cout << "Cuanto apostarás? " << (it)->getName() << " - El minimo es " << apuestaMinima << endl;
 	cin >> bet;
-	int tol = (it)->bet(bet);
-	if (tol >= apuestaMinima) {
-		apuestaMinima = bet;
-		lote = lote + bet;
-	}
-	else {
-		if ((it)->getMoney() > (apuestaMinima - 1)) {
-			cout << "You have to deal more than that! - The deal will be settled automatically!" << endl;
-			(it)->recieveMoney(bet);
-			(it)->bet(apuestaMinima);
-			lote = lote + apuestaMinima;
+	bool hecho = false;
+	while (hecho == false) {
+		if (bet >= apuestaMinima) {
+			(it)->bet(bet);
+			apuestaMinima = bet;
+			lote = lote + bet;
+			hecho = true;
+		}
+		else {
+			cout << "Debes apostar una suma mayor!" << endl;
 		}
 	}
 }
@@ -197,6 +225,9 @@ Jugador* Administrador::calcular()
 
 int Administrador::valorJugada(list<Carta*> mano)
 {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+
 	int flush = 0;
 	int straight = 0;
 	int four = 0;
@@ -207,98 +238,28 @@ int Administrador::valorJugada(list<Carta*> mano)
 	int k = 0;
 
 	/*checks for flush*/
-	list<Carta*>::iterator it1 = mano.begin();
-	list<Carta*>::iterator it2 = mano.begin();
-	advance(it2, 1);
-	while (k<4 && ((*it1)->getPalo() == (*it2)->getPalo())) {
-		k++;
-		it1 = mano.begin();
-		it2 = mano.begin();
-		advance(it1, k);
-		advance(it2, k + 1);
-		if (k == 4)
-			flush = 1;
-		break;
-	}
+	flush = this->flush(mano);
 
 	/* checks for straight*/
-	k = 0;
-	it1 = mano.begin();
-	it2 = mano.begin();
-	advance(it2, 1);
-	while (k < 4 && ((*it1)->getValor() == (*it2)->getValor()) - 1) {
-		k++;
-		it1 = mano.begin();
-		it2 = mano.begin();
-		advance(it1, k);
-		advance(it2, k + 1);
-		if (k == 4) {
-			straight = 1;
-			break;
-		}
-	}
+	straight = this->straight(mano);
 
 	/* checks for fours */
-	for (int i = 0;i<2;i++) {
-		k = i;
-		while (k<i + 3 && ((*it1)->getValor() == (*it2)->getValor()) - 1)
-			k++;
-		it1 = mano.begin();
-		it2 = mano.begin();
-		advance(it1, k);
-		advance(it2, k + 1);
-		if (k == i + 3) {
-			four = 1;
-			it1 = mano.begin();
-			advance(it1, i);
-			big = (*it1)->getValor();
+	four = this->four(mano);
+		if (four == 1) {
+			big = this->big(mano, 4);
+		}
+
+	/* checks for threes */
+	if (!four) {
+		three = this->full(mano);
+		if (three == 1) {
+			big = this->big(mano, 3);
 		}
 	}
 
-	/*checks for threes and fullhouse*/
-	k = 0;
-	it1 = mano.begin();
-	it2 = mano.begin();
-	if (!four) {
-		for (int i = 0;i<3;i++) {
-			k = i;
-			it1 = mano.begin();
-			it2 = mano.begin();
-			advance(it1, k);
-			advance(it2, k + 1);
-			while (k<(i + 2) && ((*it1)->getValor() == (*it2)->getValor()))
-				k++;
-			if (k == i + 2) {
-				three = 1;
-				it1 = mano.begin();
-				advance(it1, i);
-				big = (*it1)->getValor();
-				if (i == 0) {
-					it1 = mano.begin();
-					it2 = mano.begin();
-					advance(it1, 3);
-					advance(it2, 4);
-					if ((*it1)->getValor() == (*it2)->getValor())
-						full = 1;
-				}
-				else if (i == 1) {
-					it1 = mano.begin();
-					it2 = mano.begin();
-					advance(it1, 0);
-					advance(it2, 4);
-					if ((*it1)->getValor() == (*it2)->getValor())
-						full = 1;
-				}
-				else {
-					it1 = mano.begin();
-					it2 = mano.begin();
-					advance(it1, 0);
-					advance(it2, 1);
-					if ((*it1)->getValor() == (*it2)->getValor())
-						full = 1;
-				}
-			}
-		}
+	/* checks for fullhouse */
+	if (three == 1) {
+		full = this->full(mano);
 	}
 
 	if (straight&&flush) {
@@ -325,15 +286,17 @@ int Administrador::valorJugada(list<Carta*> mano)
 	}
 
 	/* checks for pairs*/
-	for (k = 0;k<4;k++) {
-		it1 = mano.begin();
-		it2 = mano.begin();
-		advance(it1, k);
-		advance(it2, k + 1);
-		if ((*it1)->getValor() == (*it2)->getValor()) {
-			two++;
-			if ((*it1)->getValor() > big) {
-				big = (*it1)->getValor();
+	two = this->pair(mano);
+	if (two != 0) {
+		for (k = 0;k<4;k++) {
+			it1 = mano.begin();
+			it2 = mano.begin();
+			advance(it1, k);
+			advance(it2, k + 1);
+			if ((*it1)->getValor() == (*it2)->getValor()) {
+				if ((*it1)->getValor() > big) {
+					big = (*it1)->getValor();
+				}
 			}
 		}
 	}
@@ -349,6 +312,194 @@ int Administrador::valorJugada(list<Carta*> mano)
 		advance(it1, 4);
 		return (*it1)->getValor();
 	}
+}
+
+int Administrador::straight(list<Carta*> mano) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	int straight = 0;
+	int k = 0;
+	it1 = mano.begin();
+	it2 = mano.begin();
+	advance(it2, 1);
+	while (k < 4 && ((*it1)->getValor() == (*it2)->getValor()) - 1) {
+		k++;
+		it1 = mano.begin();
+		it2 = mano.begin();
+		advance(it1, k);
+		advance(it2, k + 1);
+		if (k == 4) {
+			straight = 1;
+			break;
+		}
+	}
+	return straight;
+}
+
+int Administrador::four(list<Carta*> mano) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	int k = 0;
+	int four = 0;
+	for (int i = 0;i<2;i++) {
+		k = i;
+		while (k<i + 3 && ((*it1)->getValor() == (*it2)->getValor()) - 1)
+			k++;
+		it1 = mano.begin();
+		it2 = mano.begin();
+		advance(it1, k);
+		advance(it2, k + 1);
+		if (k == i + 3) {
+			four = 1;
+		}
+	}
+
+	return four;
+}
+
+int Administrador::big(list<Carta*> mano, int numero) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	//four
+	int big = 0;
+	int k = 0;
+	if (numero == 4) {
+		for (int i = 0;i < 2;i++) {
+			k = i;
+			while (k < i + 3 && ((*it1)->getValor() == (*it2)->getValor()) - 1)
+				k++;
+			it1 = mano.begin();
+			it2 = mano.begin();
+			advance(it1, k);
+			advance(it2, k + 1);
+			if (k == i + 3) {
+				it1 = mano.begin();
+				advance(it1, i);
+				big = (*it1)->getValor();
+			}
+		}
+	}
+
+	//three
+	if (numero == 3) {
+		for (int i = 0;i < 3;i++) {
+			k = i;
+			it1 = mano.begin();
+			it2 = mano.begin();
+			advance(it1, k);
+			advance(it2, k + 1);
+			while (k < (i + 2) && ((*it1)->getValor() == (*it2)->getValor()))
+				k++;
+			if (k == i + 2) {
+				it1 = mano.begin();
+				advance(it1, i);
+				big = (*it1)->getValor();
+			}
+		}
+	}
+	return big;
+}
+
+int Administrador::three(list<Carta*> mano) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	int k = 0;
+	int three = 0;
+	k = 0;
+	it1 = mano.begin();
+	it2 = mano.begin();
+	for (int i = 0;i<3;i++) {
+		k = i;
+		it1 = mano.begin();
+		it2 = mano.begin();
+		advance(it1, k);
+		advance(it2, k + 1);
+		while (k<(i + 2) && ((*it1)->getValor() == (*it2)->getValor()))
+			k++;
+		if (k == i + 2) {
+			three = 1;
+		}
+	}
+	return three;
+}
+
+int Administrador::full(list<Carta*> mano) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	int full = 0;
+	int k = 0;
+	mano.sort();
+	for (int i = 0;i<3;i++) {
+		k = i;
+		it1 = mano.begin();
+		it2 = mano.begin();
+		advance(it1, k);
+		advance(it2, k + 1);
+		while (k<(i + 2) && ((*it1)->getValor() == (*it2)->getValor()))
+		++k;
+		if (k == i + 2) {
+			//three
+			if (i == 0) {
+				it1 = mano.begin();
+				it2 = mano.begin();
+				advance(it1, 3);
+				advance(it2, 4);
+				if ((*it1)->getValor() == (*it2)->getValor())
+					full = 1;
+			}
+			else if (i == 1) {
+				it1 = mano.begin();
+				it2 = mano.begin();
+				advance(it1, 0);
+				advance(it2, 4);
+				if ((*it1)->getValor() == (*it2)->getValor())
+					full = 1;
+			}
+			else {
+				it1 = mano.begin();
+				it2 = mano.begin();
+				advance(it1, 0);
+				advance(it2, 1);
+				if ((*it1)->getValor() == (*it2)->getValor())
+					full = 1;
+			}
+		}
+	}
+	return full;
+}
+
+int Administrador::flush(list<Carta*> mano) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	int k = 0;
+	int flush = 0;
+	++it2;
+	while (k<4 && ((*it1)->getPalo() == (*it2)->getPalo())) {
+		k++;
+		++it1;
+		++it2;
+		if (k == 4)
+			flush = 1;
+		break;
+	}
+	return flush;
+}
+
+int Administrador::pair(list<Carta*> mano) {
+	list<Carta*>::iterator it1 = mano.begin();
+	list<Carta*>::iterator it2 = mano.begin();
+	int two = 0;
+	int k = 0;
+	for (k = 0;k<4;k++) {
+		it1 = mano.begin();
+		it2 = mano.begin();
+		advance(it1, k);
+		advance(it2, k + 1);
+		if ((*it1)->getValor() == (*it2)->getValor()) {
+			two++;
+		}
+	}
+	return two;
 }
 
 Administrador::~Administrador() {

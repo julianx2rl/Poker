@@ -68,17 +68,31 @@ public:
 	void imprimir();
 
 	/**
-	* @brief Calcula el valor de la jugada del conjunto de cartas.
+	* @brief Calcula cual jugador tiene la mejor jugada.
+	* @return Retorna al ganador de la partida
+	*/
+	Jugador* calcular();
+
+	/**
+	* @brief Calcula el valor de la jugada del conjunto de cartas, los que le siguen son fragmentos de este.
 	* @param listaCartas.
 	* @return Valor de la jugada en las cartas del maso obtenido.
 	*/
 	int valorJugada(list<Carta*> listaCartas);
 
-	/**
-	* @brief Calcula cual jugador tiene la mejor jugada.
-	* @return Retorna al ganador de la partida
-	*/
-	Jugador* calcular();
+	int straight(list<Carta*> listaCartas);
+
+	int four(list<Carta*> listaCartas);
+
+	int big(list<Carta*> listaCartas, int numero);
+
+	int three(list<Carta*> listaCartas);
+
+	int full(list<Carta*> listaCartas);
+
+	int flush(list<Carta*> listaCartas);
+
+	int pair(list<Carta*> listaCartas);
 
 	/**
 	* @brief Destructor de Administrador
