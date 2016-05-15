@@ -172,9 +172,9 @@ void Administrador::preguntar() {
 void Administrador::apostar(Jugador* it) {
 	int bet = 0;
 	cout << "Cuanto apostaras? " << (it)->getName() << " - El minimo es " << apuestaMinima << endl;
-	cin >> bet;
 	bool hecho = false;
 	while (hecho == false) {
+		cin >> bet;
 		if (bet >= apuestaMinima) {
 			(it)->bet(bet);
 			apuestaMinima = bet;
