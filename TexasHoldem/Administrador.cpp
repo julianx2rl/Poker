@@ -105,7 +105,7 @@ void Administrador::jugar() {
 	}
 
 	Jugador* winner = calcular();
-	cout << "The winner is: " << (winner)->getName() << " con:" << endl;
+	cout << "El ganador es: " << (winner)->getName() << " con:" << endl;
 	this->imprimir();
 	(winner)->imprimir();
 	juego.clear();
@@ -133,7 +133,7 @@ void Administrador::preguntar() {
 			bool done = (*it)->check();
 			if (done == false) {
 				if ((*it)->getMoney() > (apuestaMinima - 1)) {
-					cout << "Que vas a hacer? " << (*it)->getName() << " 0 = Apostar, 1 = Salir, inserta cualquier otro numero para suspender, - Dinero: " << (*it)->getMoney() << " - El mimimo es: " << apuestaMinima << " - Tus cartas:" << endl;
+					cout << "Que vas a hacer? " << (*it)->getName() << " - 0 = Apostar, 1 = Salir, inserta cualquier otro numero para suspender, - Dinero: " << (*it)->getMoney() << " - El mimimo es: " << apuestaMinima << " - Tus cartas:" << endl;
 					(*it)->imprimir();
 					cout << " - Mesa: ";
 					this->imprimir();
@@ -144,17 +144,18 @@ void Administrador::preguntar() {
 					{
 						(this)->apostar(*it);
 						(*it)->finish();
+						break;
 					}
 					case 1:
 					{
 						cout << "Adios..." << (*it)->getName() << endl;
 						juego.erase(it);
+						break;
 					}
-					break;
 					}
 				}
 				else {
-					cout << "Estas fuera!" << (*it)->getName() << endl;
+					cout << "Se te acabo el dinero, estas fuera!" << (*it)->getName() << endl;
 					juego.erase(it);
 				}
 			}
@@ -170,7 +171,7 @@ void Administrador::preguntar() {
 
 void Administrador::apostar(Jugador* it) {
 	int bet = 0;
-	cout << "Cuanto apostarás? " << (it)->getName() << " - El minimo es " << apuestaMinima << endl;
+	cout << "Cuanto apostaras? " << (it)->getName() << " - El minimo es " << apuestaMinima << endl;
 	cin >> bet;
 	bool hecho = false;
 	while (hecho == false) {
