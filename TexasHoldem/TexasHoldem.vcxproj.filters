@@ -9,14 +9,11 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="visual">
+      <UniqueIdentifier>{a8bd7103-3bd1-4bc7-b7c6-eda4a672d9e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>h</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>h</Filter>
-    </ClInclude>
     <ClInclude Include="Carta.h">
       <Filter>h</Filter>
     </ClInclude>
@@ -35,11 +32,14 @@
     <ClInclude Include="main.h">
       <Filter>h</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>visual</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>visual</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
@@ -57,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="Administrador.cpp">
       <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>visual</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

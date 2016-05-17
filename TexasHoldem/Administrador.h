@@ -78,6 +78,10 @@ public:
 	* @param listaCartas.
 	* @return Valor de la jugada en las cartas del maso obtenido.
 	*/
+
+	// TODO Separar esto de la clase Administrador!!!!
+
+
 	int valorJugada(list<Carta*> listaCartas);
 
 	int straight(list<Carta*> listaCartas);

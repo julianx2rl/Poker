@@ -99,20 +99,17 @@ void Administrador::jugar() {
 		poner();
 	}
 
-	for (int j = 0; j < 3; ++j) {
+	for (int j = 0; j < 3 && juego.size() > 1; ++j) {
 		preguntar();
 		if (j <= 1) {
-		poner();
-	}
-		if (juego.size() <= 1) {
-			break;
+			poner();
 		}
 	}
 
 	Jugador* winner = calcular();
-	cout << "El ganador es: " << (winner)->getName() << " con:" << endl;
+	cout << "El ganador es: " << winner->getName() << " con:" << endl;
 	this->imprimir();
-	(winner)->imprimir();
+	winner->imprimir();
 	this->juego.clear();
 	this->mesa.clear();
 	delete mano;
@@ -134,7 +131,10 @@ void Administrador::preguntar() {
 	while (settled == false) {
 		for (list<Jugador *>::iterator it = this->juego.begin(); it != this->juego.end(); ++it) {
 			bool done = (*it)->check();
-			if (done == false) {
+			if (!done) {
+
+				// TODO Esto debería ser parte de un jugador humano!!!
+
 				if ((*it)->getMoney() > (apuestaMinima - 1)) {
 					cout << "Que vas a hacer? " << (*it)->getName() << " - 0 = Apostar, 1 = Salir, inserta cualquier otro numero para suspender, - Dinero: " << (*it)->getMoney() << " - El mimimo es: " << apuestaMinima << " - Tus cartas:" << endl;
 					(*it)->imprimir();
@@ -432,11 +432,11 @@ int Administrador::full(list<Carta*> mano) {
 	int full = 0;
 	int k = 0;
 	mano.sort();
-	for (int i = 0;i<3;i++) {
+	for (int i = 0;i<3;i++) { // TODO <-- Usar un iterator
 		k = i;
 		it1 = mano.begin();
 		it2 = mano.begin();
-		advance(it1, k);
+		advance(it1, k); // TODO Avanzar con ++
 		advance(it2, k + 1);
 		while (k<(i + 2) && ((*it1)->getValor() == (*it2)->getValor()))
 		++k;

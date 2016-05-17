@@ -12,28 +12,19 @@ int main() {
 	Administrador * juego = new Administrador();
 	bool replay = true;
 	bool choosen = false;
-	while (replay == true) {
+	while (replay) {
 		juego->iniciarJuego();
 		juego->reparto();
 		juego->jugar();
-		while (choosen == false) {
-		int yo = 0;
-		cout << "You want to play again, or what? 0- Yes / 1- No";
-		cin >> yo;
-		if (yo == 0 || yo == 1) {
-			if (yo = 0) {
-				replay = true;
+		while (!choosen) {
+			int yo = 0;
+			cout << "You want to play again, or what? 0- Yes / 1- No";
+			cin >> yo;
+			replay = yo == 0;
+			choosen = yo == 0 || yo == 1;
+			if (!choosen) {
+				cout << "Choose again!";
 			}
-			else {
-				if (yo = 1) {
-					replay = false;
-				}
-			}
-			choosen = true;
-		}
-		else {
-			cout << "Choose again!";
-		}
 		}
 	}
 
