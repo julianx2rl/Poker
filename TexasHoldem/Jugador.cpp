@@ -2,14 +2,14 @@
 #include "Jugador.h"
 
 
-Jugador::Jugador(char name)
+Jugador::Jugador(char* name)
 {
 	disponible = 300;
 	done = false;
 	nombre = name;
 }
 
-Jugador::Jugador(char name, int money)
+Jugador::Jugador(char* name, int money)
 {
 	disponible = money;
 	done = false;
@@ -67,7 +67,7 @@ int Jugador::getMoney()
 	return disponible;
 }
 
-char Jugador::getName()
+char* Jugador::getName()
 {
 	return nombre;
 }

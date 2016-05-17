@@ -22,7 +22,7 @@ private:
 public:
 
 	int disponible;
-	char nombre;
+	char* nombre;
 	bool done;
 
 	/**
@@ -30,8 +30,8 @@ public:
 	* @param nombre Nombre que se le asignara al jugador
 	* @param dinero Cantidad de dinero manejada por el jugador
 	*/
-	Jugador(char nombre);
-	Jugador(char nombre, int dinero);
+	Jugador(char* nombre);
+	Jugador(char* nombre, int dinero);
 
 	/**
 	* @brief Descuenta el monto apostado al jugador
@@ -68,7 +68,7 @@ public:
 	* @brief Devuelve el nombre del jugador
 	* @return Nombre del Jugador
 	*/
-	char getName();
+	char* getName();
 
 	/**
 	* @brief Cambia la disponibilidad del jugador
