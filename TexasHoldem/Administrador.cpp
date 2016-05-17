@@ -62,13 +62,15 @@ void Administrador::iniciarJuego() {
 			terminado = true;
 		}
 	}
-	cout << "No puedes elegir el nombre de los jugadores." << endl;
+	char nombre[200];
+	char *p = nombre;
+	cin.getline(p, 200);
+	cout << "Elege el nombre de los jugadores." << endl;
 	for (int i = 0; i < numero; ++i) {
-		std::string nombre;
-		std::getline(std::cin, nombre);
-		char *cstr = new char[nombre.length() + 1];
-		strcpy(cstr, nombre.c_str());
-		this->juego.push_back(new Jugador(cstr, efectivo));
+		cout << "Jugador: " << i << endl;
+		p = nombre;
+		cin.getline(p, 200);
+		this->juego.push_back(new Jugador(nombre, efectivo));
 	}
 	int value = numero;
 	this->mano = new Baraja();
