@@ -67,7 +67,7 @@ void Administrador::iniciarJuego() {
 	cin.getline(p, 200);
 	cout << "Elege el nombre de los jugadores." << endl;
 	for (int i = 0; i < numero; ++i) {
-		cout << "Jugador: " << i << endl;
+		cout << "Jugador: " << i+1 << endl;
 		p = nombre;
 		cin.getline(p, 200);
 		this->juego.push_back(new Jugador(nombre, efectivo));
