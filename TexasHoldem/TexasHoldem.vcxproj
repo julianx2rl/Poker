@@ -147,6 +147,8 @@
     <ClInclude Include="Baraja.h" />
     <ClInclude Include="Carta.h" />
     <ClInclude Include="Interfaz.h" />
+    <ClInclude Include="Juego.h" />
+    <ClInclude Include="Jugada.h" />
     <ClInclude Include="Jugador.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="stdafx.h" />
@@ -157,6 +159,8 @@
     <ClCompile Include="Baraja.cpp" />
     <ClCompile Include="Carta.cpp" />
     <ClCompile Include="Interfaz.cpp" />
+    <ClCompile Include="Juego.cpp" />
+    <ClCompile Include="Jugada.cpp" />
     <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

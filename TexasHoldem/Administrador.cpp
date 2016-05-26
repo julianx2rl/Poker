@@ -12,7 +12,7 @@ void Administrador::iniciarJuego() {
 	bool hecho = false;
 	cout << "Super Poker Stars - Battle Royale. - Inserta cualquier valor numerico!" << endl;
 	int efectivo = 0;
-	while (hecho == false) {
+	while (!hecho) {
 		cin >> efectivo;
 		if (cin.fail()) {
 			cout << "Por favor usa un numero entero." << endl;
@@ -23,7 +23,7 @@ void Administrador::iniciarJuego() {
 	}
 	hecho = false;
 	cout << ("Elige la cantidad de dinero de cada jugador - Minimo de 100.") << endl;
-	while (hecho == false) {
+	while (!hecho) {
 		cin >> efectivo;
 		if (cin.fail()) {
 			cout << "Por favor usa un numero entero." << endl;
